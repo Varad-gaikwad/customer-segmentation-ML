@@ -11,7 +11,11 @@ A customer segmentation project built entirely **from scratch** using NumPy — 
 
 ## 📸 Output / Demo
 
-**(http://customer-seg-ml.streamlit.app/)**
+**http://customer-seg-ml.streamlit.app/**
+<img width="640" height="543" alt="image" src="https://github.com/user-attachments/assets/f392a015-caa9-46c2-ad25-4f3b05591a7e" />
+<img width="640" height="543" alt="image" src="https://github.com/user-attachments/assets/289d5622-ef4e-4ece-aaab-64e9d4fc29b0" />
+
+
 ---
 
 ## 🎯 Project Overview
