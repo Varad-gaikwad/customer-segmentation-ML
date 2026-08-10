@@ -11,13 +11,7 @@ A customer segmentation project built entirely **from scratch** using NumPy — 
 
 ## 📸 Output / Demo
 
-<!-- Add your Streamlit app screenshot(s) here -->
-<!-- Example: ![App Screenshot](demo/app_screenshot.png) -->
-
-<!-- Add your Elbow Method and Customer Segments scatter plots here -->
-<!-- Example: ![Elbow Method](demo/elbow_method.png) -->
-<!-- Example: ![Customer Segments](demo/customer_segments.png) -->
-
+**(http://customer-seg-ml.streamlit.app/)**
 ---
 
 ## 🎯 Project Overview
@@ -72,34 +66,6 @@ The dataset consists of **200 mall customer records** with the following feature
 Only **Annual Income** and **Spending Score** are used as clustering features, enabling a clean, interpretable 2D visualization of the resulting customer segments.
 
 ---
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/Varad-gaikwad/customer-segmentation-kmeans
-cd customer-segmentation-kmeans
-```
-
-### 2. Install dependencies
-```bash
-pip install numpy pandas matplotlib streamlit joblib
-```
-
-### 3. Run the clustering pipeline
-```bash
-python cust_seg.py
-```
-This runs the Elbow Method, trains the final K-Means model (K=5), displays the cluster visualization, prints the cluster summary statistics, and saves the trained centroids and labels (`centroids.pkl`, `cluster_labels.pkl`) for use by the app.
-
-### 4. Launch the classifier app
-```bash
-streamlit run app.py
-```
-Open your browser at `http://localhost:8501`, enter a customer's annual income and spending score, and get an instant segment classification.
-
----
-
 ## 🔍 Methodology
 
 ### 1. From-Scratch K-Means Implementation
