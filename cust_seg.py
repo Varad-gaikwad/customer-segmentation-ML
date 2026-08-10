@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import joblib as jb
-import streamlit as st
+
 
 
 x_data= pd.read_csv('Mall_Customers.csv')
@@ -114,7 +114,6 @@ def classify(income, spending_score, centroids, cluster_labels):
 jb.dump(final_centroids, "centroids.pkl")
 jb.dump(cluster_labels, "cluster_labels.pkl")
 
-st.title("🛍️ Customer Segment Classifier")
 
 
 
