@@ -14,22 +14,27 @@ A two-stage unsupervised machine learning project: first detecting and removing 
 **https://customer-seg-ml.streamlit.app/**
 
 **Dataset before anomaly removal:**
+
 <img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/3483beea-dbd2-4afd-ab4b-d673a7da8e22" />
 
 
 **Anomaly detection visualization (Normal vs. Anomaly points flagged):**
+
 <img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/0613fafe-8a18-46b5-8f6e-a0eb5a2349fb" />
 
 
 **Dataset after anomaly removal (clean data used for clustering):**
+
 <img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/3e49d7cf-12eb-44c0-afd0-43197364f721" />
 
 
 **Elbow Method (optimal K selection):**
+
 <img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/ec1c1424-b127-4269-8187-86f9ba4691a1" />
 
 
 **Final customer segments:**
+
 <img width="594" height="476" alt="image" src="https://github.com/user-attachments/assets/888eb6ea-a04d-441e-bb81-151fd0674c6c" />
 
 
