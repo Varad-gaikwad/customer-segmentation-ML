@@ -11,23 +11,27 @@ A two-stage unsupervised machine learning project: first detecting and removing 
 
 ## 📸 Output / Demo
 
-<!-- Streamlit app screenshot -->
-<!-- ![App Screenshot](demo/app_screenshot.png) -->
+**https://customer-seg-ml.streamlit.app/**
 
 **Dataset before anomaly removal:**
-<!-- ![Raw Dataset](demo/raw_dataset.png) -->
+<img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/3483beea-dbd2-4afd-ab4b-d673a7da8e22" />
+
 
 **Anomaly detection visualization (Normal vs. Anomaly points flagged):**
-<!-- ![Anomaly Detection](demo/anomaly_detection.png) -->
+<img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/0613fafe-8a18-46b5-8f6e-a0eb5a2349fb" />
+
 
 **Dataset after anomaly removal (clean data used for clustering):**
-<!-- ![Cleaned Dataset](demo/cleaned_dataset.png) -->
+<img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/3e49d7cf-12eb-44c0-afd0-43197364f721" />
+
 
 **Elbow Method (optimal K selection):**
-<!-- ![Elbow Method](demo/elbow_method.png) -->
+<img width="660" height="503" alt="image" src="https://github.com/user-attachments/assets/ec1c1424-b127-4269-8187-86f9ba4691a1" />
+
 
 **Final customer segments:**
-<!-- ![Customer Segments](demo/customer_segments.png) -->
+<img width="594" height="476" alt="image" src="https://github.com/user-attachments/assets/888eb6ea-a04d-441e-bb81-151fd0674c6c" />
+
 
 ---
 
@@ -89,34 +93,6 @@ The dataset consists of **200 mall customer records** with the following feature
 Only **Annual Income** and **Spending Score** are used for both anomaly detection and clustering, enabling clean, interpretable 2D visualizations at every stage of the pipeline.
 
 ---
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/Varad-gaikwad/customer-segmentation-anomaly-kmeans
-cd customer-segmentation-anomaly-kmeans
-```
-
-### 2. Install dependencies
-```bash
-pip install numpy pandas matplotlib streamlit joblib
-```
-
-### 3. Run the full pipeline
-```bash
-python cust_seg.py
-```
-This runs anomaly detection, visualizes flagged anomalies, removes them, runs the Elbow Method and final K-Means clustering on the cleaned data, prints the cluster summary, and saves the trained centroids and labels for the app.
-
-### 4. Launch the classifier app
-```bash
-streamlit run app.py
-```
-Open your browser at `http://localhost:8501`, enter a customer's annual income and spending score, and get an instant segment classification.
-
----
-
 ## 🔍 Methodology
 
 ### Stage 1: Anomaly Detection
