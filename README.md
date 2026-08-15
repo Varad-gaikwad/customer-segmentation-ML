@@ -1,6 +1,6 @@
-# 🛍️ Customer Segmentation using K-Means Clustering
+# 🛍️ Customer Segmentation with Anomaly Detection & K-Means Clustering
 
-A customer segmentation project built entirely **from scratch** using NumPy — no `sklearn.cluster` — implementing K-Means clustering, the Elbow Method for optimal cluster selection, and a live **Streamlit** web app that classifies new customers into marketing segments in real time.
+A two-stage unsupervised machine learning project: first detecting and removing anomalous customers using a **Gaussian (Normal) Distribution-based anomaly detection algorithm**, then segmenting the cleaned dataset into meaningful marketing groups using **K-Means clustering** — both implemented entirely from scratch with NumPy, no `scikit-learn`. Deployed as a live **Streamlit** app for real-time customer classification.
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-From%20Scratch-013243?logo=numpy&logoColor=white)
@@ -11,36 +11,48 @@ A customer segmentation project built entirely **from scratch** using NumPy — 
 
 ## 📸 Output / Demo
 
-**http://customer-seg-ml.streamlit.app/**
+<!-- Streamlit app screenshot -->
+<!-- ![App Screenshot](demo/app_screenshot.png) -->
 
+**Dataset before anomaly removal:**
+<!-- ![Raw Dataset](demo/raw_dataset.png) -->
 
+**Anomaly detection visualization (Normal vs. Anomaly points flagged):**
+<!-- ![Anomaly Detection](demo/anomaly_detection.png) -->
 
+**Dataset after anomaly removal (clean data used for clustering):**
+<!-- ![Cleaned Dataset](demo/cleaned_dataset.png) -->
 
+**Elbow Method (optimal K selection):**
+<!-- ![Elbow Method](demo/elbow_method.png) -->
 
-
-<img width="640" height="543" alt="image" src="https://github.com/user-attachments/assets/f392a015-caa9-46c2-ad25-4f3b05591a7e" />
-<img width="640" height="543" alt="image" src="https://github.com/user-attachments/assets/289d5622-ef4e-4ece-aaab-64e9d4fc29b0" />
-
+**Final customer segments:**
+<!-- ![Customer Segments](demo/customer_segments.png) -->
 
 ---
 
 ## 🎯 Project Overview
 
-This project clusters mall customers into **5 distinct marketing segments** based on their **Annual Income** and **Spending Score**, using a K-Means clustering algorithm implemented entirely from mathematical first principles — centroid initialization, cluster assignment, and centroid updates are all built manually with NumPy, with no reliance on `scikit-learn`'s clustering module.
+This project goes beyond a standard clustering exercise by explicitly addressing a problem most clustering tutorials skip: **raw, real-world data often contains outliers that distort clustering results.** Rather than clustering the raw dataset directly, this project implements a two-stage pipeline:
 
-The optimal number of clusters (K=5) is determined using the **Elbow Method**, and each resulting cluster is manually interpreted and labeled with a meaningful, business-relevant category — turning raw clustering output into actionable marketing insight.
+1. **Anomaly Detection** — using a multivariate Gaussian probability model to identify and flag customers whose income/spending behavior is statistically unusual compared to the rest of the population
+2. **K-Means Clustering** — applied only to the "normal" (non-anomalous) customers, producing cleaner, more representative segments than clustering on the raw, outlier-contaminated data would
 
-Finally, the trained model is deployed as an interactive **Streamlit** app, allowing a user to input a new customer's income and spending score and instantly see which segment they belong to.
+This mirrors a genuine real-world data science workflow: outlier/anomaly handling is a standard preprocessing step before clustering, since even a small number of extreme points can pull centroids away from where the true underlying groups actually are.
+
+The final K-Means model is deployed as an interactive **Streamlit** app, allowing a user to input a new customer's income and spending score and instantly see which segment they belong to.
 
 ---
 
 ## 🧠 Key Concepts Demonstrated
 
+- **Anomaly Detection via Gaussian Distribution** — estimating per-feature mean (μ) and variance (σ²), computing multivariate Gaussian probability density, and flagging low-probability points as anomalies
+- **Percentile-based thresholding (ε)** — choosing an anomaly cutoff based on the distribution of computed probabilities, rather than an arbitrary fixed value
 - **K-Means clustering** — implemented from scratch (assignment step, update step, convergence loop)
 - **Elbow Method** — for principled, data-driven selection of the number of clusters
-- **Unsupervised learning** — no labeled target variable; patterns are discovered directly from the data
+- **The interaction between anomaly detection and clustering** — demonstrating why removing outliers *before* clustering produces more meaningful, representative segments
 - **Cluster interpretation** — translating raw centroid statistics into meaningful business categories
-- **New-point classification** — using trained centroids to classify unseen data (a common point of confusion in unsupervised learning, handled explicitly here)
+- **New-point classification** — using trained centroids to classify unseen data
 - **Model persistence** with `joblib`
 - **Deployment** via an interactive Streamlit web application
 
@@ -49,13 +61,14 @@ Finally, the trained model is deployed as an interactive **Streamlit** app, allo
 ## 📁 Repository Structure
 
 ```
-customer-segmentation-kmeans/
+customer-segmentation-anomaly-kmeans/
 │
-├── cust_seg.py          # From-scratch K-Means implementation, elbow method, clustering & labeling
+├── cust_seg.py          # Anomaly detection + from-scratch K-Means + clustering & labeling
 ├── app.py                # Streamlit deployment app
 ├── Mall_Customers.csv    # Dataset
 ├── centroids.pkl         # Saved trained centroids (generated by cust_seg.py)
 ├── cluster_labels.pkl    # Saved cluster label mapping (generated by cust_seg.py)
+├── demo/                 # Screenshots (see below)
 └── README.md
 ```
 
@@ -67,32 +80,90 @@ The dataset consists of **200 mall customer records** with the following feature
 
 | Feature | Type | Description |
 |---|---|---|
-| CustomerID | Identifier | Unique customer ID (excluded from clustering) |
+| CustomerID | Identifier | Unique customer ID (excluded from analysis) |
 | Gender | Categorical | Male / Female |
 | Age | Continuous | Customer's age |
 | Annual Income (k$) | Continuous | Customer's yearly income, in thousands |
 | Spending Score (1-100) | Continuous | Score assigned based on customer spending behavior |
 
-Only **Annual Income** and **Spending Score** are used as clustering features, enabling a clean, interpretable 2D visualization of the resulting customer segments.
+Only **Annual Income** and **Spending Score** are used for both anomaly detection and clustering, enabling clean, interpretable 2D visualizations at every stage of the pipeline.
 
 ---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/Varad-gaikwad/customer-segmentation-anomaly-kmeans
+cd customer-segmentation-anomaly-kmeans
+```
+
+### 2. Install dependencies
+```bash
+pip install numpy pandas matplotlib streamlit joblib
+```
+
+### 3. Run the full pipeline
+```bash
+python cust_seg.py
+```
+This runs anomaly detection, visualizes flagged anomalies, removes them, runs the Elbow Method and final K-Means clustering on the cleaned data, prints the cluster summary, and saves the trained centroids and labels for the app.
+
+### 4. Launch the classifier app
+```bash
+streamlit run app.py
+```
+Open your browser at `http://localhost:8501`, enter a customer's annual income and spending score, and get an instant segment classification.
+
+---
+
 ## 🔍 Methodology
 
-### 1. From-Scratch K-Means Implementation
+### Stage 1: Anomaly Detection
 
-Three core functions implement the algorithm manually:
+**Step 1 — Estimate the Gaussian distribution parameters.**
+For each feature (Income, Spending Score), the mean (μ) and variance (σ²) are computed manually:
 
-- **`assign_cluster(x, centroids)`** — for every data point, computes squared distance to each centroid and assigns the point to the nearest one
-- **`compute_centroids(x, c, k)`** — recalculates each centroid as the mean of all points currently assigned to it (re-initializing randomly if a cluster becomes empty)
-- **`kmeans(x, k, initial_centroids, max_iters)`** — iterates assignment and update steps until convergence or `max_iters` is reached
+```
+μ = (1/m) Σ x
+σ² = (1/m) Σ (x - μ)²
+```
 
-### 2. Elbow Method
+**Step 2 — Compute the probability density for every data point.**
+Using the multivariate Gaussian probability density function:
 
-K-Means is run for K = 1 through 10, and the **within-cluster sum of squared distances (cost)** is recorded for each. Plotting cost against K reveals a visible "elbow" — the point beyond which increasing K yields diminishing improvement. This dataset's elbow occurs at **K = 5**, which is used for the final model.
+```
+p(x) = [1 / √((2π)ⁿ · ∏σ²)] · exp(-0.5 · Σ [(x - μ)² / σ²])
+```
 
-### 3. Cluster Interpretation
+Points that are far from the mean (in either feature) receive a **low probability** — they don't look like "typical" customers according to the fitted distribution.
 
-After training the final model, each cluster's average Income and Spending Score are computed and used to assign a meaningful label:
+**Step 3 — Set a threshold (ε) and flag anomalies.**
+The threshold is set at the **7th percentile** of all computed probabilities:
+
+```python
+epsilon = np.percentile(p, 7)
+anomalies = p < epsilon
+```
+
+Any customer whose probability falls below this threshold is flagged as an anomaly and excluded from the clustering stage.
+
+**Step 4 — Visualize and remove.**
+Anomalies are plotted separately (marked with an `x`) against normal points, then filtered out to produce a cleaned dataset (`x_train`) used for all subsequent clustering.
+
+### Stage 2: K-Means Clustering (on cleaned data)
+
+Three core functions implement K-Means manually:
+
+- **`assign_cluster(x, centroids)`** — assigns each point to its nearest centroid based on squared distance
+- **`compute_centroids(x, c, k)`** — recalculates each centroid as the mean of its assigned points
+- **`kmeans(x, k, initial_centroids, max_iters)`** — iterates assignment and update steps until convergence
+
+**Elbow Method:** K-Means is run for K = 1 through 10 on the *cleaned* data, plotting cost (within-cluster sum of squared distances) against K to identify the optimal cluster count — **K = 5**.
+
+### Cluster Interpretation
+
+After training the final model on the cleaned data, each cluster's average Income and Spending Score are computed and mapped to a meaningful business label:
 
 | Cluster | Income | Spending | Label |
 |---|---|---|---|
@@ -102,22 +173,28 @@ After training the final model, each cluster's average Income and Spending Score
 | Budget-Conscious | Low | Low | Cost-sensitive — target with discounts & value bundles |
 | Standard Customers | Average | Average | General marketing, no special targeting needed |
 
-### 4. Classifying New Customers
+### Classifying New Customers
 
-Since K-Means has no built-in mechanism for predicting on new, unseen data, a `predict_cluster()` function was implemented that computes the distance from a new customer's data point to each of the **already-trained** centroids, assigning the customer to the nearest one — replicating what `sklearn`'s `.predict()` does internally.
+A `predict_cluster()` function computes the distance from a new customer's data point to each of the **already-trained** centroids (from the anomaly-cleaned model), assigning the customer to the nearest one.
 
-### 5. Deployment
+### Deployment
 
 The trained centroids and cluster label mapping are serialized with `joblib` and loaded into a Streamlit app (`app.py`), which takes a new customer's income and spending score as input and returns their assigned segment in real time.
+
+---
+
+## 💡 Why Remove Anomalies Before Clustering?
+
+K-Means computes centroids as the **mean** of all points in a cluster — and means are highly sensitive to outliers. A single extreme customer (e.g., unusually high income with erratic spending) can pull a centroid away from where the "true" center of a group actually lies, distorting the resulting segments for every customer in that cluster, not just the outlier itself. By identifying and removing statistically anomalous customers *before* clustering, the resulting segments more accurately reflect genuine, representative customer behavior patterns — this is standard practice in real-world clustering pipelines, not just a theoretical concern.
 
 ---
 
 ## 🛠️ Tech Stack
 
 - **Python** — core language
-- **NumPy** — from-scratch K-Means implementation (distance calculations, centroid updates)
+- **NumPy** — from-scratch Gaussian anomaly detection and K-Means implementation
 - **Pandas** — data loading and cluster summary aggregation
-- **Matplotlib** — Elbow Method plot and cluster visualization
+- **Matplotlib** — anomaly visualization, Elbow Method plot, and cluster visualization
 - **Streamlit** — interactive web deployment
 - **Joblib** — model persistence
 
